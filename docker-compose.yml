@@ -12,3 +12,6 @@ services:
     command:
       - "--config-file=./marprc.yml"
       - "--debug"
+    profiles:
+      - slides
+
