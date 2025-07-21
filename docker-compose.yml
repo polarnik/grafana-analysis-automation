@@ -1,0 +1,14 @@
+# https://docs.docker.com/compose/compose-file/
+# https://docs.docker.com/compose/compose-file/05-services/
+
+services:
+  marp:
+    image: marpteam/marp-cli:v4.2.0
+    volumes:
+      - ./slides/:/slides
+    working_dir: /slides
+    ports:
+      - 37717:37717
+    command:
+      - "--config-file=./marprc.yml"
+      - "--debug"
