@@ -22,9 +22,31 @@ fi
 
 compile_a_dashboard () {
 
+      echo "💤 $3/$4/$5/$1"
+          java  -jar "$WORKDIR/$JSONNET" \
+            --strict   \
+            --fatal-warnings --throw-error-for-invalid-sets \
+            --indent 4 \
+            --ext-str EXT_SOURCE_TYPE=$3 \
+            --ext-str EXT_DIFF_TYPE=$4 \
+            --ext-str EXT_THEME=$5 \
+            -J vendor  \
+            --reverse-jpaths-priority \
+            --create-output-dirs \
+            --output-file "$2/$3/$4/$5/$1.json" \
+            "$BASE/src/main/jsonnet/$1.jsonnet"
+      echo "✅  $3/$4/$5/$1"
+}
+
+
+OUTPUTFOLDER=$BASE/configs/grafana/provisioning/dashboards/youtrack
+
+
 array_source_type=( thanos_qf vm_promql)
 diff_array=(current_prev current_several_prevs z_score)
+diff_array=(current_prev)
 theme_array=(blue_white_red rainbow white_rainbow)
+theme_array=(blue_white_red rainbow)
 
 for EXT_SOURCE_TYPE in "${array_source_type[@]}"
 do
@@ -32,36 +54,16 @@ do
   do
     for EXT_THEME in "${theme_array[@]}"
     do
-      echo "💤 $EXT_SOURCE_TYPE/$EXT_DIFF_TYPE/$EXT_THEME/$1"
-          "$WORKDIR/$JSONNET" \
-            --strict   \
-            --fatal-warnings --throw-error-for-invalid-sets \
-            --indent 4 \
-            --ext-str EXT_SOURCE_TYPE=$EXT_SOURCE_TYPE \
-            --ext-str EXT_DIFF_TYPE=$EXT_DIFF_TYPE \
-            --ext-str EXT_THEME=$EXT_THEME \
-            -J vendor  \
-            --reverse-jpaths-priority \
-            --create-output-dirs \
-            --output-file "$2/$EXT_SOURCE_TYPE/$EXT_DIFF_TYPE/$EXT_THEME/$1.json" \
-            "$BASE/src/main/jsonnet/$1.jsonnet"
-      echo "✅  $EXT_SOURCE_TYPE/$EXT_DIFF_TYPE/$EXT_THEME/$1"
+      compile_a_dashboard youtrack_HubIntegration $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_process $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_Workflow_details $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_Workflows $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_XodusStorage_CachedJobs $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute_Started $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute_Started_Interrupted $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
+      compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute_Started_Retried $OUTPUTFOLDER $EXT_SOURCE_TYPE $EXT_DIFF_TYPE $EXT_THEME
     done
   done
 done
-}
-
-
-OUTPUTFOLDER=$BASE/configs/grafana/provisioning/dashboards/youtrack
-
-
-compile_a_dashboard youtrack_HubIntegration $OUTPUTFOLDER
-compile_a_dashboard youtrack_process $OUTPUTFOLDER
-compile_a_dashboard youtrack_Workflow_details $OUTPUTFOLDER
-compile_a_dashboard youtrack_Workflows $OUTPUTFOLDER
-compile_a_dashboard youtrack_XodusStorage_CachedJobs $OUTPUTFOLDER
-compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued $OUTPUTFOLDER
-compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute $OUTPUTFOLDER
-compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute_Started $OUTPUTFOLDER
-compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute_Started_Interrupted $OUTPUTFOLDER
-compile_a_dashboard youtrack_XodusStorage_CachedJobs_Queued_Execute_Started_Retried $OUTPUTFOLDER

@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -12,7 +13,7 @@ annotations
 + g.dashboard.withDescription(|||
   Dashboard with YouTrack Workflow scripts
 |||)
-+ g.dashboard.withUid('yt_workflow_top')
++ g.dashboard.withUid('yt_workflow_top_' + uid.uid)
 + g.dashboard.withTags([
   'YouTrack Server',
   'YouTrack Workflows'

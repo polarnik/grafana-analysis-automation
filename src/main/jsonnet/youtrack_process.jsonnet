@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -8,11 +9,11 @@ local queries = import './queries.promql.thanos.libsonnet';
 local annotations = import './annotations.libsonnet';
 
 annotations
-+ g.dashboard.new('YouTrack Process (' + std.extVar("EXT_SOURCE_TYPE") + ')')
++ g.dashboard.new('YouTrack Process')
 + g.dashboard.withDescription(|||
   Dashboard for YouTrack based processes
 |||)
-+ g.dashboard.withUid('yt_process_' + std.extVar("EXT_SOURCE_TYPE"))
++ g.dashboard.withUid('yt_process_' + uid.uid)
 + g.dashboard.withTags([
   'YouTrack Server'
 ])

@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -9,13 +10,13 @@ local cached_jobs = queries.Xodus_entity_store_metrics.cached_jobs;
 local annotations = import './annotations.libsonnet';
 
 annotations
-+ g.dashboard.new('Xodus storage: ⚙️ Cached Jobs → ✅ Queued | ❌ Non Queued (' + std.extVar("EXT_SOURCE_TYPE") + ')')
++ g.dashboard.new('Xodus storage: ⚙️ Cached Jobs → ✅ Queued | ❌ Non Queued')
 + g.dashboard.withDescription(|||
   YouTrack Xodus entity store metrics (DB):
   ⚙️ Cached Jobs →
   ✅ Queued | ❌ Non Queued
 |||)
-+ g.dashboard.withUid('xodus_storage_jobs_' + std.extVar("EXT_SOURCE_TYPE"))
++ g.dashboard.withUid('xodus_storage_jobs_' + uid.uid)
 + g.dashboard.withTags([
     'YouTrack Server',
     'Xodus',
@@ -119,8 +120,8 @@ annotations
         queries.diff_over_time(cached_jobs.Queued__Non_Queued.Queued_percent)
       )
       + panels.link_panel(
-        [{title:'✅ Queued', UID: 'xodus_storage_queued'}])
-      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('✅ Queued', 'xodus_storage_queued'))
+        [{title:'✅ Queued', UID: 'xodus_storage_queued_'+ uid.uid}])
+      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('✅ Queued', 'xodus_storage_queued_'+ uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '✅ % Queued',
@@ -128,7 +129,7 @@ annotations
         cached_jobs.Queued__Non_Queued.Queued_percent.unit
       )
       + panels.link_panel(
-        [{title:'✅ Queued', UID: 'xodus_storage_queued'}])
+        [{title:'✅ Queued', UID: 'xodus_storage_queued_'+ uid.uid}])
       ,
 
       // ❌ % Not Queued

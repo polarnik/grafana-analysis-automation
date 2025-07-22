@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -9,7 +10,7 @@ local cached_jobs = queries.Xodus_entity_store_metrics.cached_jobs;
 local annotations = import './annotations.libsonnet';
 
 annotations
-+ g.dashboard.new('Xodus storage: 🛠 Execute → ✳️ Started | ⛔️ Not Started (' + std.extVar("EXT_SOURCE_TYPE") + ')')
++ g.dashboard.new('Xodus storage: 🛠 Execute → ✳️ Started | ⛔️ Not Started')
 + g.dashboard.withDescription(|||
   YouTrack Xodus entity store metrics (DB):
   ⚙️ Cached Jobs →
@@ -18,7 +19,7 @@ annotations
   🛠️ Execute →
   ✳️ Started | ⛔️ Not Started
 |||)
-+ g.dashboard.withUid('xodus_storage_execute_' + std.extVar("EXT_SOURCE_TYPE"))
++ g.dashboard.withUid('xodus_storage_execute_' + uid.uid)
 + g.dashboard.withTags([
     'YouTrack Server',
     'Xodus',
@@ -95,8 +96,8 @@ annotations
         queries.diff_over_time(cached_jobs.Execute.Started_per_sec)
       )
         + panels.link_panel(
-          [{title:'✳️ Started', UID: 'xodus_storage_started'}])
-        + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('✳️ Started', 'xodus_storage_started'))
+          [{title:'✳️ Started', UID: 'xodus_storage_started_'+ uid.uid}])
+        + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('✳️ Started', 'xodus_storage_started_'+ uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '✳️ Started (per 1 second)',
@@ -104,7 +105,7 @@ annotations
         cached_jobs.Execute.Started_per_sec.unit
       )
       + panels.link_panel(
-        [{title:'✳️ Started', UID: 'xodus_storage_started'}])
+        [{title:'✳️ Started', UID: 'xodus_storage_started_'+ uid.uid}])
         ,
 
       // ⛔️ Not Started

@@ -1,4 +1,5 @@
 local variables = import './variables.libsonnet';
+local colors = import './colors.libsonnet';
 local g = import 'g.libsonnet';
 local get_minimal_interval_sec(min_interval) = 10 * min_interval ;
 local get_minimal_interval(min_interval) = get_minimal_interval_sec(min_interval) + "s";
@@ -73,64 +74,7 @@ local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") th
               mappings: [],
               thresholds: {
                 mode: 'absolute',
-                steps: [
-                  {
-                    color: 'green',
-                    value: null,
-                  },
-                  {
-                    color: 'dark-red',
-                    value: -60,
-                  },
-                  {
-                    color: 'red',
-                    value: -50,
-                  },
-                  {
-                    value: -50,
-                    color: '#EAB839',
-                  },
-                  {
-                    color: 'orange',
-                    value: -40,
-                  },
-                  {
-                    color: 'yellow',
-                    value: -30,
-                  },
-                  {
-                    color: 'blue',
-                    value: -20,
-                  },
-                  {
-                    color: '#8e3bb84d',
-                    value: -10,
-                  },
-                  {
-                    value: 0,
-                    color: '#ffffff',
-                  },
-                  {
-                    value: 10,
-                    color: 'super-light-green',
-                  },
-                  {
-                    value: 20,
-                    color: 'light-green',
-                  },
-                  {
-                    value: 30,
-                    color: 'green',
-                  },
-                  {
-                    value: 40,
-                    color: 'semi-dark-green',
-                  },
-                  {
-                    value: 50,
-                    color: 'dark-green',
-                  },
-                ],
+                steps: colors.a_bigger_value_is_better.steps,
               },
               color: {
                 mode: 'thresholds',
@@ -153,36 +97,7 @@ local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") th
               mappings: [],
               thresholds: {
                 mode: 'absolute',
-                steps: [
-                  {
-                    color: '#8e3bb84d',
-                    value: null,
-                  },
-                  {
-                    color: 'blue',
-                    value: 10,
-                  },
-                  {
-                    color: 'green',
-                    value: 20,
-                  },
-                  {
-                    color: 'yellow',
-                    value: 30,
-                  },
-                  {
-                    color: 'orange',
-                    value: 40,
-                  },
-                  {
-                    color: 'red',
-                    value: 50,
-                  },
-                  {
-                    color: 'dark-red',
-                    value: 60,
-                  },
-                ],
+                steps: colors.a_bigger_value_is_a_problem.steps,
               },
               color: {
                 mode: 'thresholds',

@@ -4,7 +4,7 @@
 brew install go-jsonnet
 brew install jsonnet-bundler
 
-jb install github.com/grafana/grafonnet/gen/grafonnet-v10.4.0@main
+jb install github.com/grafana/grafonnet/gen/grafonnet-v11.4.0@main
 ```
 
 # Usage

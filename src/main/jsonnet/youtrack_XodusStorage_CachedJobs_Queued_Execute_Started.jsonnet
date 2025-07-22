@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -9,7 +10,7 @@ local cached_jobs = queries.Xodus_entity_store_metrics.cached_jobs;
 local annotations = import './annotations.libsonnet';
 
 annotations
-+ g.dashboard.new('Xodus storage: ✳️ Started → ❎ Completed | ↩️ Retried | 🚫️ Interrupted (' + std.extVar("EXT_SOURCE_TYPE") + ')')
++ g.dashboard.new('Xodus storage: ✳️ Started → ❎ Completed | ↩️ Retried | 🚫️ Interrupted')
 + g.dashboard.withDescription(|||
   YouTrack Xodus entity store metrics (DB):
   ⚙️ Cached Jobs →
@@ -19,7 +20,7 @@ annotations
   ✳️ Started →
   ❎ Completed | ↩️ Retried | 🚫️ Interrupted
 |||)
-+ g.dashboard.withUid('xodus_storage_started_' + std.extVar("EXT_SOURCE_TYPE"))
++ g.dashboard.withUid('xodus_storage_started_' + uid.uid)
 + g.dashboard.withTags([
     'YouTrack Server',
     'Xodus',
@@ -156,8 +157,8 @@ annotations
         queries.diff_over_time(cached_jobs.Started.Retried_percent)
       )
                     + panels.link_panel(
-                      [{title:'↩️ Retried', UID: 'xodus_storage_retried'}])
-                    + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('↩️ Retried', 'xodus_storage_retried'))
+                      [{title:'↩️ Retried', UID: 'xodus_storage_retried_' + uid.uid}])
+                    + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('↩️ Retried', 'xodus_storage_retried_' + uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '↩️ % Retried (100 * ↩️ Retried / ✳️ Started)',
@@ -165,7 +166,7 @@ annotations
         cached_jobs.Started.Retried_percent.unit
       )
                     + panels.link_panel(
-                      [{title:'↩️ Retried', UID: 'xodus_storage_retried'}])
+                      [{title:'↩️ Retried', UID: 'xodus_storage_retried_'+ uid.uid}])
       ,
 
       // 🚫️ % Interrupted
@@ -183,7 +184,7 @@ annotations
         cached_jobs.Started.Interrupted_percent.unit
       )
           + panels.link_panel(
-            [{title:'🚫️ Interrupted', UID: 'xodus_storage_interrupted'}])
+            [{title:'🚫️ Interrupted', UID: 'xodus_storage_interrupted_'+ uid.uid}])
       ,
 
     ], 20, 7, 0

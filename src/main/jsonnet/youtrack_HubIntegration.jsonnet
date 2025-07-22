@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -9,12 +10,12 @@ local hub = queries.youtrack_HubIntegration;
 local annotations = import './annotations.libsonnet';
 
 annotations
-+ g.dashboard.new('YouTrack HubIntegration (' + std.extVar("EXT_SOURCE_TYPE") + ')')
++ g.dashboard.new('YouTrack HubIntegration')
 + g.dashboard.withDescription(|||
   YouTrack HubIntegration metrics:
   ⚙️ Received, ✅ Processed, ⛔️ Ignored, ⌛️ Pending, ❌ Failed,
 |||)
-+ g.dashboard.withUid('yt_hubint_' + std.extVar("EXT_SOURCE_TYPE"))
++ g.dashboard.withUid('yt_hubint_' + uid.uid )
 + g.dashboard.withTags([
   'YouTrack Server',
   'HubIntegration',

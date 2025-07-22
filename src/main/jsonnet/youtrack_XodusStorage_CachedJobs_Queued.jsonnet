@@ -1,4 +1,5 @@
 local g = import 'g.libsonnet';
+local uid = import 'uid.libsonnet';
 
 local row = g.panel.row;
 
@@ -9,14 +10,14 @@ local cached_jobs = queries.Xodus_entity_store_metrics.cached_jobs;
 local annotations = import './annotations.libsonnet';
 
 annotations
-+ g.dashboard.new('Xodus storage: ✅ Queued → 🟡 Consistent | 🟠 Non Consistent (' + std.extVar("EXT_SOURCE_TYPE") + ')')
++ g.dashboard.new('Xodus storage: ✅ Queued → 🟡 Consistent | 🟠 Non Consistent')
 + g.dashboard.withDescription(|||
   YouTrack Xodus entity store metrics (DB):
    →
   ✅ Queued →
   🟡 Consistent | 🟠 Non Consistent
 |||)
-+ g.dashboard.withUid('xodus_storage_queued_' + std.extVar("EXT_SOURCE_TYPE"))
++ g.dashboard.withUid('xodus_storage_queued_' + uid.uid)
 + g.dashboard.withTags([
     'YouTrack Server',
     'Xodus',
