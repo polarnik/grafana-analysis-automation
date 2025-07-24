@@ -436,7 +436,7 @@ local uid = import 'uid.libsonnet';
 
   diagram: {
     local linkDiagram(name, dashbaord_uid) = {
-        "mermaid": "\n    click %(NAME)s \"/d/%(UID)s?${__all_variables}&${__url_time_range}\"" % {NAME: name, UID: dashbaord_uid}
+        "mermaid": "\n    click %(NAME)s \"/d/%(UID)s?${__all_variables}&${__url_time_range}\" _blank" % {NAME: name, UID: dashbaord_uid}
     },
     local linksDiagram = ""
         + linkDiagram("Cached", 'xodus_storage_jobs_' + uid.uid).mermaid

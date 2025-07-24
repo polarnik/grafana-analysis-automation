@@ -50,12 +50,13 @@ _transition: melt 1000ms
 -->
 
 # Dashboards as code
-## with jsonnet
+## with **jsonnet**
 
 - ## GitOps
 - ## Query management
 - ## Design patterns
 - github.com/polarnik/grafana-analysis-automation
+- polarnik.github.io/grafana-analysis-automation/
 
 ![bg right](img/qr-code-github.svg)
 
@@ -66,7 +67,7 @@ _transition: cube 1000ms
 -->
 
 # Dashboards as code 
-## *Demo*
+# *Demo*
 
 ---
 
@@ -80,7 +81,7 @@ _transition: cube 1000ms
 
 # Visual hints
 
-- ## *Change points*
+- ## **Change points**
 - ## Priorities
 - ## Navigation
 
@@ -88,7 +89,7 @@ _transition: cube 1000ms
 
 
 
-# *Change points* will show the most important events
+# **Change points** will show the most important events
 
 - ## Releases
 - ## Restarts
@@ -99,7 +100,7 @@ _transition: cube 1000ms
 <!-- _class: lead
 -->
 
-# 💡 Top level panel with versions can show _Release_ moments
+# 💡 Top level panel with _Versions_ can show **Release** moments
 
 ---
 
@@ -107,7 +108,7 @@ _transition: cube 1000ms
 _transition: melt 1000ms
 -->
 
-# 💡 Annotations can show _Restarts_ and _Settings updates_
+# 💡 _Annotations_ can show **Restarts** and **Settings updates**
 
 
 ---
@@ -116,7 +117,7 @@ _transition: melt 1000ms
 -->
 
 # Change points 
-## *Demo*
+# *Demo*
 
 
 ---
@@ -124,30 +125,48 @@ _transition: melt 1000ms
 <!-- _class: lead
 -->
 
-# Next step: to use a *rollback plan* checklist with *step-by-step* instructions
+# Next step: to use a *Rollback plan*
 
 ---
 
 <!-- _class: lead
+-->
+
+# Next step: to make a *hot-fix*
+
+---
+
+<!-- _class: dark
 _transition: cube 1000ms
 -->
 
-# Next step:
-# *hot-fix*
+# Automation of adding **Change points**
+
+- ## **Create** a jsonnet *library* for versions and annotations
+- ## **Include** the library into dashboards
+- ## **Regenerate** dashboards
 
 ---
 
 # Visual hints
 
 - ## Change points
-- ## *Priorities*
+- ## **Priorities**
 - ## Navigation
 
 ---
 
-# *Priorities* will highlight bottlenecks
+# **Priorities** will highlight bottlenecks
 
 - ## Simple dashboards
+- ## TOPs
+- ## Gradients
+
+---
+
+# **Priorities** will highlight bottlenecks
+
+- ## **Simple dashboards**
 - ## TOPs
 - ## Gradients
 
@@ -166,12 +185,21 @@ _transition: cube 1000ms
 
 ---
 
-![bg fit](img/meta-2.png)
-![bg fit](img/simple-2.png)
+# **Simple**, small, fast, opened dashboards
+
+# are my favorite
+
+![bg fit](img/meta-1.png)
+![bg fit](img/simple-1.png)
 
 ---
 
-# Simplify dashboards via the code
+<!-- _class: dark
+_transition: cube 1000ms
+-->
+
+# Automation of making **simple** dashboards
+
 ```jsonnet
       row.new('🗂 File Descriptors'),
       
@@ -189,36 +217,136 @@ _transition: cube 1000ms
 
 ---
 
-# TOPs in Tables is my favorite
-## We can sort by the Total Duration
+# **Priorities** will highlight bottlenecks
+
+- ## Simple dashboards
+- ## **TOPs**
+- ## Gradients
+
+---
+
+# TOPs in **Tables** are my favorite
+## We can **sort** by the **Total Duration**
 
 ![bg](img/top-1.png)
 
 ---
 
-# TOPs in Legends is the easiest way
-## We can sort by Mean
+# TOPs in **Legends** is the easiest way
+## We can **sort** by **Mean**
 
 ![bg](img/top-2.png)
 
 ---
 
-# TOPs in Time Series
+# TOPs in **Time Series**
 
 ![bg](img/top-3.png)
 
 ---
 
-# Gradients
+<!-- _class: dark
+-->
+
+# Automation of getting **TOP** series
+
+```promql
+sort_desc(    
+  topk($top,        
+    sum_over_time(
+      (                
+        sum(increase(                            
+            youtrack_Workflow_OnScheduleFull_TotalDuration{
+              instance=~"$instance"
+            }[2m]                    
+          )                
+        ) by (script)            
+      )[$__range:2m]        
+)))
+```
+
 
 ---
 
-<!-- _class: lead
+<!-- _class: dark
+-->
+
+# Automation of getting **TOP** series
+
+```promql
+sort_desc(    
+  topk($top,        
+    sum_over_time(  
+```
+```pl
+      (                
+        sum(increase(                            
+            youtrack_Workflow_OnScheduleFull_TotalDuration{
+              instance=~"$instance"
+            }[2m]                    
+          )                
+```
+```promql
+        ) by (script)            
+```
+```pl
+      )[$__range:2m]        
+```
+```promql
+)))
+```
+
+---
+
+# **Priorities** will highlight bottlenecks
+
+- ## Simple dashboards
+- ## TOPs
+- ## **Gradients**
+
+---
+
+<!-- _class: dark -->
+
+# <b style="color:#FF0000">Red colors</b> will highlight bottlenecks
+
+- <h1><em class="Blue_White_Red">Blue-White-Red</em></h1>
+- <h1><em class="Blue_Red">Blue-Red</em></h1>
+- <h1><em class="Rainbow">Rainbow</em></h1>
+- <h1><em class="White_Rainbow">White-Rainbow</em></h1>
+
+---
+
+<!-- _class: dark
+_transition: melt 1000ms
+-->
+
+# Automation of changing **themes** via flags 
+
+```java
+colors: 
+  if (std.extVar("EXT_THEME") == "blue_white_red") then
+    self.blue_white_red
+  else if (std.extVar("EXT_THEME") == "blue_red") then
+    self.blue_red
+  else if (std.extVar("EXT_THEME") == "rainbow") then
+    self.rainbow
+  else if (std.extVar("EXT_THEME") == "white_rainbow") then
+    self.white_rainbow
+  else
+    self.blue_white_red,
+```
+
+
+---
+
+<!-- _class: lead dark
 _transition: cube 1000ms
 -->
 
-# Priorities: Simple dashboards with TOPs and Gradients
-## *Demo*
+# *Demo*
+
+## Simple dashboards with TOPs and Gradients
 
 ---
 
@@ -241,23 +369,22 @@ _transition: cube 1000ms
 
 ---
 
-# Navigation through Summary and Templates dashboards
+# Navigation via Drill-Down
 
 - ## Summary dashboard 
-  - ## uses *Tables* and *Stat* panels
+  - ## uses **Tables** and **Stat** panels
 - ## Template dashboards 
-  - ## use *Time series* with *Text* variables
+  - ## use **Time series** with **Text** variables
 
 ---
 
-# Links will connect relevant dashboards
+# **Links** will connect relevant dashboards
 
 - ## Table cells links through *Data links*
 - ## Stats panel links through *Data links*
 - ## Dashboard links through *Tags*
 - ## Diagram Links through *Actions*
 - ## Text Links through *HTML* or *Markdown*
-- ## Panel links
 
 ---
 
@@ -266,10 +393,10 @@ _transition: cube 1000ms
 _transition: melt 1000ms
 -->
 
-# Schemas will visualize connections
+# **Schemas** will visualize connections
 
-- ## The Diagram plugin with *Mermaid.js* Flowchart
-- ## The Text panel with images of *Miro* diagrams
+- ## The Diagram plugin with **Mermaid.js** Flowchart
+- ## The Text panel with images of **Miro** diagrams
 
 ---
 
@@ -285,9 +412,10 @@ _transition: cube 1000ms
 # Hints for automation analysis
 
 ## Run-books
-- Runbook templates
-- Runbook-first alerts
-- Markdown, Writerside, Hugo
+
+- ## Runbook templates
+- ## Runbook-first alerts
+- ## Markdown pages: Writerside, Hugo
 
 ---
 
@@ -295,10 +423,33 @@ _transition: cube 1000ms
 
 ## Links in Alerts
 
-- The runbook link
-- Dashboard links with Time ranges
-- Grafana annotations with links
-- Issue links
+- ## The runbook link
+- ## Dashboard links with Time ranges
+- ## Issue links
+
+---
+
+<!--
+_transition: melt 1000ms
+-->
+
+# Hints for automation analysis
+
+## Grafana **Snapshots**
+
+- ## perfana/perfana-snapshot
+- ## Sonnet 3.7, Sonnet 4.0
+- ## Google Gemini 2.5 Pro
+
+---
+
+<!-- _class: lead dark
+_transition: cube 1000ms
+-->
+
+# Hints for automation analysis
+
+# *Demo*
 
 ---
 
@@ -306,7 +457,7 @@ _transition: cube 1000ms
 -->
 
 
-# Contacts
+# Smirnov Viacheslav or **Slava**
 
 - ## perf**qa** (linkedin)
 - ## **perf**track (grafana)

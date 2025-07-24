@@ -51,9 +51,7 @@ OUTPUTFOLDER=$BASE/configs/grafana/provisioning/dashboards/youtrack
 
 
 array_source_type=( thanos_qf vm_promql)
-diff_array=(current_prev current_several_prevs z_score)
-diff_array=( current_several_prevs)
-theme_array=(blue_white_red rainbow white_rainbow)
+diff_array=( current_prev current_several_prevs)
 theme_array=(blue_white_red rainbow)
 
 for EXT_SOURCE_TYPE in "${array_source_type[@]}"
