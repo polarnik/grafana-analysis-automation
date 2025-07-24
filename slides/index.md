@@ -15,6 +15,52 @@ _transition: fade 300ms
 ## Viacheslav Smirnov
 
 ---
+
+![bg h:100%](img/it-projects.png)
+
+---
+
+![bg h:100%](img/it-projects-1.png)
+
+---
+
+![bg h:100%](img/it-projects-2.png)
+
+---
+
+![bg h:100%](img/it-projects-3.png)
+
+---
+
+# How to *automate*
+
+- generation via **jsonnet**
+- **visual hints** for manual analysis
+- alerts, run-books, links, snapshots, ai run-books and issues
+
+---
+
+# Dashboards as code
+
+- ## GitOps
+- ## Query management
+- ## Design patterns
+- github.com/polarnik/grafana-analysis-automation
+
+![bg right](img/qr-code-github.svg)
+
+---
+
+# Dashboards as code 🚀 *Demo*
+
+- ## GitOps
+- ## Query management
+- ## Design patterns
+
+---
+
+
+---
 <!-- _class: lead -->
 
 # Sleep, Hike, *Automate*

@@ -15,9 +15,9 @@ annotations
 |||)
 + g.dashboard.withUid('yt_process_' + uid.uid)
 + g.dashboard.withTags([
-  'YouTrack Server'
+  'YouTrack Server' + ' ' + uid.uid,
 ])
-+ panels.links(['YouTrack Server'])
++ panels.links(['YouTrack Server' + ' ' + uid.uid])
 + g.dashboard.graphTooltip.withSharedCrosshair()
 + g.dashboard.withVariables([
   variables.datasource,

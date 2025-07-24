@@ -15,12 +15,12 @@ annotations
   YouTrack HubIntegration metrics:
   ⚙️ Received, ✅ Processed, ⛔️ Ignored, ⌛️ Pending, ❌ Failed,
 |||)
-+ g.dashboard.withUid('yt_hubint_' + uid.uid )
++ g.dashboard.withUid('yt_hubint_' + uid.uid)
 + g.dashboard.withTags([
-  'YouTrack Server',
-  'HubIntegration',
+  'YouTrack Server' + ' ' + uid.uid,
+  'HubIntegration' + ' ' + uid.uid,
 ])
-+ panels.links(['YouTrack Server'])
++ panels.links(['YouTrack Server' + ' ' + uid.uid])
 + g.dashboard.graphTooltip.withSharedCrosshair()
 + g.dashboard.withVariables([
   variables.datasource,
@@ -138,8 +138,7 @@ annotations
         '❌ Failed (per 1 minute): see error messages "Got exception while processing Ring event" in logs',
         queries.start_prev_current_diff(hub.HubEvents.Failed_per_minute),
         hub.HubEvents.Failed_per_minute.unit
-      )
-      ,
+      ),
 
     ], 20, 7, 0
   )

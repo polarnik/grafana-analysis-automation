@@ -22,15 +22,15 @@ annotations
 |||)
 + g.dashboard.withUid('xodus_storage_started_' + uid.uid)
 + g.dashboard.withTags([
-    'YouTrack Server',
-    'Xodus',
-    'Xodus Entity',
-    '✳️ Started',
-    '❎ Completed',
-    '↩️ Retried',
-    '🚫️ Interrupted'
-    ])
-+ panels.links(['YouTrack Server', 'Xodus', 'Xodus Entity'])
+  'YouTrack Server' + ' ' + uid.uid,
+  'Xodus' + ' ' + uid.uid,
+  'Xodus Entity' + ' ' + uid.uid,
+  '✳️ Started' + ' ' + uid.uid,
+  '❎ Completed' + ' ' + uid.uid,
+  '↩️ Retried' + ' ' + uid.uid,
+  '🚫️ Interrupted' + ' ' + uid.uid,
+])
++ panels.links(['YouTrack Server' + ' ' + uid.uid, 'Xodus' + ' ' + uid.uid, 'Xodus Entity' + ' ' + uid.uid])
 + g.dashboard.graphTooltip.withSharedCrosshair()
 + g.dashboard.withVariables([
   variables.datasource,
@@ -48,38 +48,38 @@ annotations
 
       // ⚙️ Cached Jobs → Queued | Non Queued
       row.new('ℹ️ Info: ✳️ Started → ❎ Completed | ↩️ Retried | 🚫️ Interrupted'),
-//      + row.withCollapsed(true)
-//      + row.withPanels([
+      //      + row.withCollapsed(true)
+      //      + row.withPanels([
       panels.texts.image('https://polarnik.github.io/youtrack-monitoring/Execute-Started.png')
-        + {
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 9
-          }
+      + {
+        gridPos: {
+          h: 8,
+          w: 12,
+          x: 0,
+          y: 9,
         },
+      },
       panels.diagram.base(),
-//      ]),
-    /*
-    %%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
-    flowchart LR
-        A(⚙️ Cached Jobs) ==> B(✅ Queued)
-        A(⚙️ Cached Jobs) -.-> C(❌ Non Queued)
-        B ==> D(🟡 Consistent)
-        B ==> E(🟠 Non Consistent)
-        D ==> F(🛠 Execute)
-        E ==> F
-        F ==> G(✳️ Started)
-        F -.-> H(⛔️ Not Started)
-        G -.-> I(↩️ Retried)
-        G ==> J(❎ Completed)
-        G -.-> K(🚫️ Interrupted)
-        I -.-> L(🟡 Consistent)
-        I -.-> M(🟠 Non Consistent)
-        K -.-> N(⌛️ Obsolete)
-        K -.-> O(⏰ Overdue)
-    */
+      //      ]),
+      /*
+      %%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
+      flowchart LR
+          A(⚙️ Cached Jobs) ==> B(✅ Queued)
+          A(⚙️ Cached Jobs) -.-> C(❌ Non Queued)
+          B ==> D(🟡 Consistent)
+          B ==> E(🟠 Non Consistent)
+          D ==> F(🛠 Execute)
+          E ==> F
+          F ==> G(✳️ Started)
+          F -.-> H(⛔️ Not Started)
+          G -.-> I(↩️ Retried)
+          G ==> J(❎ Completed)
+          G -.-> K(🚫️ Interrupted)
+          I -.-> L(🟡 Consistent)
+          I -.-> M(🟠 Non Consistent)
+          K -.-> N(⌛️ Obsolete)
+          K -.-> O(⏰ Overdue)
+      */
 
       row.new('✳️ Started → ❎ Completed | ↩️ Retried | 🚫️ Interrupted'),
       // ✳️ Started
@@ -109,17 +109,19 @@ annotations
         '↩️ Retried',
         queries.diff_over_time(cached_jobs.Started.Retried_per_sec)
       )
-              + panels.link_panel(
-                [{title:'↩️ Retried', UID: 'xodus_storage_retried'}])
-              + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('↩️ Retried', 'xodus_storage_retried'))
+      + panels.link_panel(
+        [{ title: '↩️ Retried', UID: 'xodus_storage_retried_' + uid.uid }]
+      )
+      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('↩️ Retried', 'xodus_storage_retried_' + uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '↩️ Retried (per 1 second)',
         queries.start_prev_current_diff(cached_jobs.Started.Retried_per_sec),
         cached_jobs.Started.Retried_per_sec.unit
       )
-                    + panels.link_panel(
-                      [{title:'↩️ Retried', UID: 'xodus_storage_retried'}])
+      + panels.link_panel(
+        [{ title: '↩️ Retried', UID: 'xodus_storage_retried_' + uid.uid }]
+      )
       ,
 
       // 🚫️ Interrupted
@@ -128,16 +130,18 @@ annotations
         queries.diff_over_time(cached_jobs.Started.Interrupted_per_sec)
       )
       + panels.link_panel(
-        [{title:'🚫️ Interrupted', UID: 'xodus_storage_interrupted'}])
-      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('🚫️ Interrupted', 'xodus_storage_interrupted'))
+        [{ title: '🚫️ Interrupted', UID: 'xodus_storage_interrupted_' + uid.uid }]
+      )
+      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('🚫️ Interrupted', 'xodus_storage_interrupted_' + uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '🚫️ Interrupted (per 1 second)',
         queries.start_prev_current_diff(cached_jobs.Started.Interrupted_per_sec),
         cached_jobs.Started.Interrupted_per_sec.unit
       )
-        + panels.link_panel(
-          [{title:'🚫️ Interrupted', UID: 'xodus_storage_interrupted'}])
+      + panels.link_panel(
+        [{ title: '🚫️ Interrupted', UID: 'xodus_storage_interrupted_' + uid.uid }]
+      )
       ,
 
       // ✳️ % Completed
@@ -156,17 +160,19 @@ annotations
         '↩️ % Retried',
         queries.diff_over_time(cached_jobs.Started.Retried_percent)
       )
-                    + panels.link_panel(
-                      [{title:'↩️ Retried', UID: 'xodus_storage_retried_' + uid.uid}])
-                    + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('↩️ Retried', 'xodus_storage_retried_' + uid.uid))
+      + panels.link_panel(
+        [{ title: '↩️ Retried', UID: 'xodus_storage_retried_' + uid.uid }]
+      )
+      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('↩️ Retried', 'xodus_storage_retried_' + uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '↩️ % Retried (100 * ↩️ Retried / ✳️ Started)',
         queries.start_prev_current_diff(cached_jobs.Started.Retried_percent),
         cached_jobs.Started.Retried_percent.unit
       )
-                    + panels.link_panel(
-                      [{title:'↩️ Retried', UID: 'xodus_storage_retried_'+ uid.uid}])
+      + panels.link_panel(
+        [{ title: '↩️ Retried', UID: 'xodus_storage_retried_' + uid.uid }]
+      )
       ,
 
       // 🚫️ % Interrupted
@@ -174,18 +180,19 @@ annotations
         '🚫️ % Interrupted',
         queries.diff_over_time(cached_jobs.Started.Interrupted_percent)
       )
-        + panels.link_panel(
-          [{title:'🚫️ Interrupted', UID: 'xodus_storage_interrupted'}])
-        + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('🚫️ Interrupted', 'xodus_storage_interrupted'))
+      + panels.link_panel(
+        [{ title: '🚫️ Interrupted', UID: 'xodus_storage_interrupted' }]
+      )
+      + g.panel.stat.standardOptions.withLinksMixin(panels.one_link('🚫️ Interrupted', 'xodus_storage_interrupted_' + uid.uid))
       ,
       panels.combo.timeSeries.current_vs_prev(
         '🚫️ % Interrupted (100 * 🚫️ Interrupted / ✳️ Started)',
         queries.start_prev_current_diff(cached_jobs.Started.Interrupted_percent),
         cached_jobs.Started.Interrupted_percent.unit
       )
-          + panels.link_panel(
-            [{title:'🚫️ Interrupted', UID: 'xodus_storage_interrupted_'+ uid.uid}])
-      ,
+      + panels.link_panel(
+        [{ title: '🚫️ Interrupted', UID: 'xodus_storage_interrupted_' + uid.uid }]
+      ),
 
     ], 20, 7, 0
   )

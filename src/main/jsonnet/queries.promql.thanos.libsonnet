@@ -6,6 +6,7 @@ local variables = import './variables.libsonnet';
 local timeSeries = g.panel.timeSeries;
 
 local strip(str) = std.stripChars(str, "\n ");
+local stddev(str) = "stdev(" + str + ")";
 
 {
   // Global common filter.
@@ -63,6 +64,11 @@ local strip(str) = std.stripChars(str, "\n ");
             prev_21d: strip(template % { one: one.prev_21d, two: two.prev_21d }),
             prev_28d: strip(template % { one: one.prev_28d, two: two.prev_28d }),
             prev_35d: strip(template % { one: one.prev_35d, two: two.prev_35d }),
+                        stddev_7d: stddev(strip(template % { one: one.prev_7d, two: two.prev_7d })),
+                        stddev_14d: stddev(strip(template % { one: one.prev_14d, two: two.prev_14d })),
+                        stddev_21d: stddev(strip(template % { one: one.prev_21d, two: two.prev_21d })),
+                        stddev_28d: stddev(strip(template % { one: one.prev_28d, two: two.prev_28d })),
+                        stddev_35d: stddev(strip(template % { one: one.prev_35d, two: two.prev_35d })),
             current_over_time: strip(template % { one: one.current_over_time, two: two.current_over_time }),
             prev_over_time: strip(template % { one: one.prev_over_time, two: two.prev_over_time }),
         }
@@ -75,8 +81,13 @@ local strip(str) = std.stripChars(str, "\n ");
             prev_7d: strip(template % { one: one.prev_7d, two: two.prev_7d, free: free.prev_7d }),
             prev_14d: strip(template % { one: one.prev_14d, two: two.prev_14d, free: free.prev_14d }),
             prev_21d: strip(template % { one: one.prev_21d, two: two.prev_21d, free: free.prev_21d }),
-            prev_28: strip(template % { one: one.prev_28, two: two.prev_28, free: free.prev_28 }),
-            prev_35: strip(template % { one: one.prev_35, two: two.prev_35, free: free.prev_35 }),
+            prev_28d: strip(template % { one: one.prev_28d, two: two.prev_28d, free: free.prev_28d }),
+            prev_35d: strip(template % { one: one.prev_35d, two: two.prev_35d, free: free.prev_35d }),
+                        stddev_7d: stddev(strip(template % { one: one.prev_7d, two: two.prev_7d, free: free.prev_7d })),
+                        stddev_14d: stddev(strip(template % { one: one.prev_14d, two: two.prev_14d, free: free.prev_14d })),
+                        stddev_21d: stddev(strip(template % { one: one.prev_21d, two: two.prev_21d, free: free.prev_21d })),
+                        stddev_28d: stddev(strip(template % { one: one.prev_28d, two: two.prev_28d, free: free.prev_28d })),
+                        stddev_35d: stddev(strip(template % { one: one.prev_35d, two: two.prev_35d, free: free.prev_35d })),
             current_over_time: strip(template % { one: one.current_over_time, two: two.current_over_time, free: free.current_over_time }),
             prev_over_time: strip(template % { one: one.prev_over_time, two: two.prev_over_time, free: free.prev_over_time }),
         }
@@ -91,6 +102,13 @@ local strip(str) = std.stripChars(str, "\n ");
         prev_21d: current(metricName, offsetExpression_21d),
         prev_28d: current(metricName, offsetExpression_28d),
         prev_35d: current(metricName, offsetExpression_35d),
+
+                stddev_7d: stddev(current(metricName, offsetExpression_7d)),
+                stddev_14d: stddev(current(metricName, offsetExpression_14d)),
+                stddev_21d: stddev(current(metricName, offsetExpression_21d)),
+                stddev_28d: stddev(current(metricName, offsetExpression_28d)),
+                stddev_35d: stddev(current(metricName, offsetExpression_35d)),
+
         current_over_time: current_over_time(metricName),
         prev_over_time: current_over_time(metricName, offsetExpression),
       },
@@ -122,6 +140,11 @@ local strip(str) = std.stripChars(str, "\n ");
         prev_21d: current(metricName, offsetExpression_21d),
         prev_28d: current(metricName, offsetExpression_28d),
         prev_35d: current(metricName, offsetExpression_35d),
+                stddev_7d: stddev(current(metricName, offsetExpression_7d)),
+                stddev_14d: stddev(current(metricName, offsetExpression_14d)),
+                stddev_21d: stddev(current(metricName, offsetExpression_21d)),
+                stddev_28d: stddev(current(metricName, offsetExpression_28d)),
+                stddev_35d: stddev(current(metricName, offsetExpression_35d)),
         current_over_time: current(metricName),
         prev_over_time: current(metricName, offsetExpression),
       },
@@ -145,6 +168,11 @@ local strip(str) = std.stripChars(str, "\n ");
           prev_21d: current(metricName, offsetExpression_21d),
           prev_28d: current(metricName, offsetExpression_28d),
           prev_35d: current(metricName, offsetExpression_35d),
+                    stddev_7d: stddev(current(metricName, offsetExpression_7d)),
+                    stddev_14d: stddev(current(metricName, offsetExpression_14d)),
+                    stddev_21d: stddev(current(metricName, offsetExpression_21d)),
+                    stddev_28d: stddev(current(metricName, offsetExpression_28d)),
+                    stddev_35d: stddev(current(metricName, offsetExpression_35d)),
           current_over_time: current_over_time(metricName),
           prev_over_time: current_over_time(metricName, offsetExpression),
         },
@@ -177,6 +205,11 @@ local strip(str) = std.stripChars(str, "\n ");
         prev_21d: strip($.query.count_per_second.prev_21d(metricName)),
         prev_28d: strip($.query.count_per_second.prev_28d(metricName)),
         prev_35d: strip($.query.count_per_second.prev_35d(metricName)),
+                stddev_7d: stddev(strip($.query.count_per_second.prev_7d(metricName))),
+                stddev_14d: stddev(strip($.query.count_per_second.prev_14d(metricName))),
+                stddev_21d: stddev(strip($.query.count_per_second.prev_21d(metricName))),
+                stddev_28d: stddev(strip($.query.count_per_second.prev_28d(metricName))),
+                stddev_35d: stddev(strip($.query.count_per_second.prev_35d(metricName))),
         current_over_time: strip($.query.count_per_second.current_over_time(metricName)),
         prev_over_time: strip($.query.count_per_second.prev_over_time(metricName)),
       },
@@ -191,6 +224,11 @@ local strip(str) = std.stripChars(str, "\n ");
         prev_21d: current(seconds, metricName, offsetExpression_21d),
         prev_28d: current(seconds, metricName, offsetExpression_28d),
         prev_35d: current(seconds, metricName, offsetExpression_35d),
+                stddev_7d: stddev(current(seconds, metricName, offsetExpression_7d)),
+                stddev_14d: stddev(current(seconds, metricName, offsetExpression_14d)),
+                stddev_21d: stddev(current(seconds, metricName, offsetExpression_21d)),
+                stddev_28d: stddev(current(seconds, metricName, offsetExpression_28d)),
+                stddev_35d: stddev(current(seconds, metricName, offsetExpression_35d)),
         current_over_time: current_over_time(seconds, metricName),
         prev_over_time: current_over_time(seconds, metricName, offsetExpression),
       },
@@ -231,6 +269,11 @@ local strip(str) = std.stripChars(str, "\n ");
         prev_21d: current(durationMetric, eventMetric, offsetExpression_21d),
         prev_28d: current(durationMetric, eventMetric, offsetExpression_28d),
         prev_35d: current(durationMetric, eventMetric, offsetExpression_35d),
+                stddev_7d: stddev(current(durationMetric, eventMetric, offsetExpression_7d)),
+                stddev_14d: stddev(current(durationMetric, eventMetric, offsetExpression_14d)),
+                stddev_21d: stddev(current(durationMetric, eventMetric, offsetExpression_21d)),
+                stddev_28d: stddev(current(durationMetric, eventMetric, offsetExpression_28d)),
+                stddev_35d: stddev(current(durationMetric, eventMetric, offsetExpression_35d)),
         current_over_time: current_over_time(durationMetric, eventMetric),
         prev_over_time: current_over_time(durationMetric, eventMetric, offsetExpression),
       },
@@ -281,15 +324,15 @@ local strip(str) = std.stripChars(str, "\n ");
     },
   },
 
-  prev(prevQuery):
+  prev(prevQuery, refId='prev', legendFormat='prev ($offset)'):
     prometheusQuery.new(
       '${%s}' % variables.datasource.name,
       prevQuery
     )
     + prometheusQuery.withEditorMode('code')
-    + prometheusQuery.withLegendFormat('prev ($offset)')
+    + prometheusQuery.withLegendFormat(legendFormat)
     + prometheusQuery.withRange(true)
-    + prometheusQuery.withRefId('prev')
+    + prometheusQuery.withRefId(refId)
   ,
 
   current(currentQuery):
@@ -340,7 +383,19 @@ local strip(str) = std.stripChars(str, "\n ");
     + prometheusQuery.withRefId('diff')
   ,
 
-  start_prev_current_diff(querySet): [
+  start_prev_current_diff_multy(querySet): [
+      self.start,
+      self.prev(querySet.prev_21d, refId='prev (21d)', legendFormat='prev (21d)'),
+      self.prev(querySet.prev_14d, refId='prev (14d)', legendFormat='prev (14d)'),
+      self.prev(querySet.prev),
+      self.current(querySet.current),
+      self.diff(querySet),
+    ],
+
+  start_prev_current_diff(querySet):
+  if (std.extVar("EXT_DIFF_TYPE") == "current_several_prevs") then
+    self.start_prev_current_diff_multy(querySet)
+  else [
     self.start,
     self.prev(querySet.prev),
     self.current(querySet.current),
@@ -555,7 +610,7 @@ local strip(str) = std.stripChars(str, "\n ");
              |||,
              $.Xodus_entity_store_metrics.cached_jobs.Execute.Started_per_sec,
              $.Xodus_entity_store_metrics.cached_jobs.Execute.Not_Started_per_sec,
-             $.units.percent
+             $.units.count_per_second
         ),
         // ✅ Started (per 1 second)
         Started_per_sec: $.query.count_per_second.set('youtrack_TotalCachingJobsStarted'),

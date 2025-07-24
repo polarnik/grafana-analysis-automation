@@ -14,28 +14,36 @@ fi
 if [ ! -f $WORKDIR/$JSONNET ]; then
   echo "💤 Download sjsonnet"
   curl --output $WORKDIR/$JSONNET \
-  -L https://github.com/databricks/sjsonnet/releases/download/0.5.3/sjsonnet-0.5.3.jar
+  -L https://github.com/databricks/sjsonnet/releases/download/0.4.12/sjsonnet-0.4.12.jar
   echo "✅  Download sjsonnet complete"
 
   chmod +x $WORKDIR/$JSONNET
 fi
 
 compile_a_dashboard () {
+  echo "💤 $3/$4/$5/$1"
+  jsonnet -J vendor \
+  --output-file "$2/$3/$4/$5/$1.json" \
+      --ext-str EXT_SOURCE_TYPE=$3 \
+      --ext-str EXT_DIFF_TYPE=$4 \
+      --ext-str EXT_THEME=$5 \
+      --create-output-dirs \
+       --max-stack 1024 \
+      --max-trace 4000 \
+  "$BASE/src/main/jsonnet/$1.jsonnet"
 
-      echo "💤 $3/$4/$5/$1"
-          java  -jar "$WORKDIR/$JSONNET" \
-            --strict   \
-            --fatal-warnings --throw-error-for-invalid-sets \
-            --indent 4 \
-            --ext-str EXT_SOURCE_TYPE=$3 \
-            --ext-str EXT_DIFF_TYPE=$4 \
-            --ext-str EXT_THEME=$5 \
-            -J vendor  \
-            --reverse-jpaths-priority \
-            --create-output-dirs \
-            --output-file "$2/$3/$4/$5/$1.json" \
-            "$BASE/src/main/jsonnet/$1.jsonnet"
-      echo "✅  $3/$4/$5/$1"
+#  java  -jar "$WORKDIR/$JSONNET" \
+#    -i jsonnet--strict  \
+#    --preserve-order \
+#    --fatal-warnings  \
+#    --indent 4 \
+#    --ext-str EXT_SOURCE_TYPE=$3 \
+#    --ext-str EXT_DIFF_TYPE=$4 \
+#    --ext-str EXT_THEME=$5 \
+#    -J vendor  \
+#    --create-output-dirs \
+#    --output-file "$2/$3/$4/$5/$1.json" \
+#    "$BASE/src/main/jsonnet/$1.jsonnet"
 }
 
 
@@ -44,7 +52,7 @@ OUTPUTFOLDER=$BASE/configs/grafana/provisioning/dashboards/youtrack
 
 array_source_type=( thanos_qf vm_promql)
 diff_array=(current_prev current_several_prevs z_score)
-diff_array=(current_prev)
+diff_array=( current_several_prevs)
 theme_array=(blue_white_red rainbow white_rainbow)
 theme_array=(blue_white_red rainbow)
 

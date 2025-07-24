@@ -15,10 +15,10 @@ annotations
 |||)
 + g.dashboard.withUid('yt_workflow_top_' + uid.uid)
 + g.dashboard.withTags([
-  'YouTrack Server',
-  'YouTrack Workflows'
+  'YouTrack Server' + ' ' + uid.uid,
+  'YouTrack Workflows' + ' ' + uid.uid,
 ])
-+ panels.links(['YouTrack Server', 'YouTrack Workflows'])
++ panels.links(['YouTrack Server' + ' ' + uid.uid, 'YouTrack Workflows' + ' ' + uid.uid])
 + g.dashboard.graphTooltip.withSharedCrosshair()
 + g.dashboard.withVariables([
   variables.datasource,

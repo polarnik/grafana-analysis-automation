@@ -23,14 +23,14 @@ annotations
 |||)
 + g.dashboard.withUid('xodus_storage_interrupted_' + uid.uid)
 + g.dashboard.withTags([
-    'YouTrack Server',
-    'Xodus',
-    'Xodus Entity',
-    '🚫️ Interrupted',
-    '⌛️ Obsolete',
-    '⏰ Overdue'
-    ])
-+ panels.links(['YouTrack Server', 'Xodus', 'Xodus Entity'])
+  'YouTrack Server' + ' ' + uid.uid,
+  'Xodus' + ' ' + uid.uid,
+  'Xodus Entity' + ' ' + uid.uid,
+  '🚫️ Interrupted' + ' ' + uid.uid,
+  '⌛️ Obsolete' + ' ' + uid.uid,
+  '⏰ Overdue' + ' ' + uid.uid,
+])
++ panels.links(['YouTrack Server' + ' ' + uid.uid, 'Xodus' + ' ' + uid.uid, 'Xodus Entity' + ' ' + uid.uid])
 + g.dashboard.graphTooltip.withSharedCrosshair()
 + g.dashboard.withVariables([
   variables.datasource,
@@ -48,38 +48,38 @@ annotations
 
       // ⚙️ Cached Jobs → Queued | Non Queued
       row.new('ℹ️ Info: 🚫️ Interrupted → ⌛️ Obsolete | ⏰ Overdue'),
-//      + row.withCollapsed(true)
-//      + row.withPanels([
+      //      + row.withCollapsed(true)
+      //      + row.withPanels([
       panels.texts.image('https://polarnik.github.io/youtrack-monitoring/Execute-Started-Interrupted.png')
-        + {
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 9
-          }
+      + {
+        gridPos: {
+          h: 8,
+          w: 12,
+          x: 0,
+          y: 9,
         },
+      },
       panels.diagram.base(),
-//      ]),
-    /*
-    %%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
-    flowchart LR
-        A(⚙️ Cached Jobs) ==> B(✅ Queued)
-        A(⚙️ Cached Jobs) -.-> C(❌ Non Queued)
-        B ==> D(🟡 Consistent)
-        B ==> E(🟠 Non Consistent)
-        D ==> F(🛠 Execute)
-        E ==> F
-        F ==> G(✳️ Started)
-        F -.-> H(⛔️ Not Started)
-        G -.-> I(↩️ Retried)
-        G ==> J(❎ Completed)
-        G -.-> K(🚫️ Interrupted)
-        I -.-> L(🟡 Consistent)
-        I -.-> M(🟠 Non Consistent)
-        K -.-> N(⌛️ Obsolete)
-        K -.-> O(⏰ Overdue)
-    */
+      //      ]),
+      /*
+      %%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%
+      flowchart LR
+          A(⚙️ Cached Jobs) ==> B(✅ Queued)
+          A(⚙️ Cached Jobs) -.-> C(❌ Non Queued)
+          B ==> D(🟡 Consistent)
+          B ==> E(🟠 Non Consistent)
+          D ==> F(🛠 Execute)
+          E ==> F
+          F ==> G(✳️ Started)
+          F -.-> H(⛔️ Not Started)
+          G -.-> I(↩️ Retried)
+          G ==> J(❎ Completed)
+          G -.-> K(🚫️ Interrupted)
+          I -.-> L(🟡 Consistent)
+          I -.-> M(🟠 Non Consistent)
+          K -.-> N(⌛️ Obsolete)
+          K -.-> O(⏰ Overdue)
+      */
       row.new('🚫️ Interrupted → ⌛️ Obsolete | ⏰ Overdue'),
       // 🚫️ Interrupted
       panels.combo.stat.a_bigger_value_is_a_problem(

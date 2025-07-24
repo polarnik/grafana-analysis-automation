@@ -4,6 +4,7 @@ local g = import 'g.libsonnet';
 local get_minimal_interval_sec(min_interval) = 10 * min_interval ;
 local get_minimal_interval(min_interval) = get_minimal_interval_sec(min_interval) + "s";
 local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") then 540 else 540 ;
+local uid = import 'uid.libsonnet';
 
 {
 
@@ -156,7 +157,7 @@ local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") th
                 lineInterpolation: 'smooth',
                 barAlignment: 0,
                 lineWidth: 1,
-                fillOpacity: 30,
+                fillOpacity: 10,
                 gradientMode: 'opacity',
                 spanNulls: false,
                 insertNulls: false,
@@ -239,6 +240,112 @@ local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") th
                   },
                 ],
               },
+                {
+                  "matcher": {
+                    "id": "byFrameRefID",
+                    "options": "prev (7d)"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.lineWidth",
+                      "value": 1
+                    },
+                    {
+                      "id": "color",
+                      "value": {
+                        "fixedColor": "blue",
+                        "mode": "fixed"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byFrameRefID",
+                    "options": "prev (14d)"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.lineWidth",
+                      "value": 1
+                    },
+                    {
+                      "id": "color",
+                      "value": {
+                        "fixedColor": "semi-dark-blue",
+                        "mode": "fixed"
+                      }
+                    },
+                    {
+                      "id": "custom.lineStyle",
+                      "value": {
+                        "dash": [
+                          10,
+                          2
+                        ],
+                        "fill": "dash"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byFrameRefID",
+                    "options": "prev (21d)"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.lineWidth",
+                      "value": 1
+                    },
+                    {
+                      "id": "color",
+                      "value": {
+                        "fixedColor": "purple",
+                        "mode": "fixed"
+                      }
+                    },
+                    {
+                      "id": "custom.lineStyle",
+                      "value": {
+                        "dash": [
+                          10,
+                          5
+                        ],
+                        "fill": "dash"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "matcher": {
+                    "id": "byFrameRefID",
+                    "options": "prev (28d)"
+                  },
+                  "properties": [
+                    {
+                      "id": "custom.lineWidth",
+                      "value": 1
+                    },
+                    {
+                      "id": "custom.lineStyle",
+                      "value": {
+                        "dash": [
+                          0,
+                          10
+                        ],
+                        "fill": "dot"
+                      }
+                    },
+                    {
+                      "id": "color",
+                      "value": {
+                        "fixedColor": "semi-dark-purple",
+                        "mode": "fixed"
+                      }
+                    }
+                  ]
+                },
               {
                 matcher: {
                   id: 'byFrameRefID',
@@ -328,6 +435,26 @@ local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") th
   },
 
   diagram: {
+    local linkDiagram(name, dashbaord_uid) = {
+        "mermaid": "\n    click %(NAME)s \"/d/%(UID)s?${__all_variables}&${__url_time_range}\"" % {NAME: name, UID: dashbaord_uid}
+    },
+    local linksDiagram = ""
+        + linkDiagram("Cached", 'xodus_storage_jobs_' + uid.uid).mermaid
+        + linkDiagram("NonQueued", 'xodus_storage_jobs_' + uid.uid).mermaid
+        + linkDiagram("Queued", 'xodus_storage_queued_' + uid.uid).mermaid
+        + linkDiagram("Consistent", 'xodus_storage_queued_' + uid.uid).mermaid
+        + linkDiagram("E", 'xodus_storage_queued_' + uid.uid).mermaid
+        + linkDiagram("F", 'xodus_storage_execute_' + uid.uid).mermaid
+        + linkDiagram("G", 'xodus_storage_started_' + uid.uid).mermaid
+        + linkDiagram("J", 'xodus_storage_started_' + uid.uid).mermaid
+        + linkDiagram("H", 'xodus_storage_execute_' + uid.uid).mermaid
+        + linkDiagram("I", 'xodus_storage_retried_' + uid.uid).mermaid
+        + linkDiagram("L", 'xodus_storage_retried_' + uid.uid).mermaid
+        + linkDiagram("M", 'xodus_storage_retried_' + uid.uid).mermaid
+        + linkDiagram("K", 'xodus_storage_interrupted_' + uid.uid).mermaid
+        + linkDiagram("N", 'xodus_storage_interrupted_' + uid.uid).mermaid
+        + linkDiagram("O", 'xodus_storage_interrupted_' + uid.uid).mermaid
+        ,
     base():
     {
       "datasource": {
@@ -365,7 +492,7 @@ local get_maxDataPoints() = if (std.extVar("EXT_SOURCE_TYPE") == "vm_promql") th
       "id": 17,
       "options": {
         "useBackground": false,
-        "content": "%%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%\nflowchart LR\n    A(⚙️ Cached Jobs) ==> B(✅ Queued)\n    A(⚙️ Cached Jobs) -.-> C(❌ Non Queued)\n    B ==> D(🟡 Consistent)\n    B ==> E(🟠 Non Consistent)\n    D ==> F(🛠 Execute)\n    E ==> F\n    F ==> G(✳️ Started)\n    F -.-> H(⛔️ Not Started)\n    G -.-> I(↩️ Retried)\n    G ==> J(❎ Completed)\n    G -.-> K(🚫️ Interrupted)\n    I -.-> L(🟡 Consistent)\n    I -.-> M(🟠 Non Consistent)\n    K -.-> N(⌛️ Obsolete)\n    K -.-> O(⏰ Overdue)",
+        "content": "%%{ init: { 'flowchart': { 'curve': 'monotoneX' } } }%%\nflowchart LR\n    Cached(⚙️ Cached Jobs) ==> Queued(✅ Queued)\n    Cached(⚙️ Cached Jobs) -.-> NonQueued(❌ Non Queued)\n    Queued ==> Consistent(🟡 Consistent)\n    Queued ==> E(🟠 Non Consistent)\n    Consistent ==> F(🛠 Execute)\n    E ==> F\n    F ==> G(✳️ Started)\n    F -.-> H(⛔️ Not Started)\n    G -.-> I(↩️ Retried)\n    G ==> J(❎ Completed)\n    G -.-> K(🚫️ Interrupted)\n    I -.-> L(🟡 Consistent)\n    I -.-> M(🟠 Non Consistent)\n    K -.-> N(⌛️ Obsolete)\n    K -.-> O(⏰ Overdue)" + linksDiagram,
         "nodeSize": {
           "minWidth": 30,
           "minHeight": 30
