@@ -5,8 +5,8 @@ services:
   marp:
     image: marpteam/marp-cli:v4.2.0
     volumes:
-      - ./slides/:/slides
-    working_dir: /slides
+      - ./docs/:/docs
+    working_dir: /docs
     ports:
       - 37717:37717
     command:
