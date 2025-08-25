@@ -10,7 +10,7 @@ unknown-size: true
 transition: fade 500ms
 -->
  
-# How to *automate* Grafana dashboard *analysis*
+# How to **automate** Grafana dashboard **analysis**
 
 ## Viacheslav Smirnov
 
@@ -105,19 +105,10 @@ _transition: cube 1000ms
 ---
 
 <!-- _class: lead
-_transition: melt 1000ms
 -->
 
 # 💡 _Annotations_ can show **Restarts** and **Settings updates**
 
-
----
-
-<!-- _class: lead
--->
-
-# Change points 
-# *Demo*
 
 
 ---
@@ -137,14 +128,24 @@ _transition: melt 1000ms
 ---
 
 <!-- _class: dark
-_transition: cube 1000ms
+_transition: melt 1000ms
 -->
 
-# Automation of adding **Change points**
+# Automation of showing **Change points**
 
 - ## **Create** a jsonnet *library* for versions and annotations
 - ## **Include** the library into dashboards
 - ## **Regenerate** dashboards
+
+---
+
+<!-- _class: lead
+_transition: cube 1000ms
+-->
+
+# Change points 
+# *Demo*
+
 
 ---
 
@@ -426,6 +427,16 @@ _transition: cube 1000ms
 - ## The runbook link
 - ## Dashboard links with Time ranges
 - ## Issue links
+
+---
+
+## Prompts
+
+- Is it connected with a release?
+- Is it connected with a restart?
+- Is it connected with new settings?
+- Is it connected with the specific item from the TOP?
+- Is it a correct panel and query?
 
 ---
 
